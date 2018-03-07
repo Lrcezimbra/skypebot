@@ -9,7 +9,9 @@ def main(send_message):
             "(victory)",
             "(like)",
             "(cool)",
-            "(fistbump)"
+            "(fistbump)",
+            "(handshake)",
+            "(celebrate)"
         ]
         return random.choice(jokes)
 
