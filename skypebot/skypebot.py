@@ -142,11 +142,13 @@ def _hot_today(event):
 
 
 def _allegro(event):
-    event.msg.chat.sendFile(
-        allegro.get_menu_image_content(),
-        'allegro.jpg',
-        image=True,
-    )
+    date_posted, image = allegro.get_menu_image_content()
+    if image:
+        event.msg.chat.sendFile(image, 'allegro.jpg', image=True)
+    else:
+        msg_format = 'Último cardápio do Allegro foi publicado dia {}'
+        formated_date_posted = date_posted.strftime('%d/%m/%Y')
+        event.msg.chat.sendMsg(msg_format.format(formated_date_posted))
 
 
 def _menus(event):
