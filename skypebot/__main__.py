@@ -6,6 +6,9 @@ from skpy import SkypeEventLoop, SkypeNewMessageEvent
 import skypebot
 
 
+ACCEPTED_SELF_MESSAGES = skypebot.KEYWORDS['allegro']
+
+
 class SkypePing(SkypeEventLoop):
     def __init__(self, username, password):
         super(SkypePing, self).__init__(username, password)
@@ -14,10 +17,12 @@ class SkypePing(SkypeEventLoop):
         try:
             if not isinstance(event, SkypeNewMessageEvent):
                 return
-            if event.msg.userId == self.userId:
-                return
 
             msg = event.msg.content.lower()
+            is_accepted_self_message = msg in ACCEPTED_SELF_MESSAGES
+            if event.msg.userId == self.userId and not is_accepted_self_message:
+                return
+
             print(msg)
 
             importlib.reload(skypebot)
