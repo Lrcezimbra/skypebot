@@ -19,6 +19,7 @@ KEYWORDS = {
     'coin': ('rb©oin', 'rb©'),
     'lunch': ('#almoco', '#almoço', '#lunch'),
     'allegro': ('#allegro', '#cardapio_allegro', '#cardapioAllegro', '#cardapioallegro'),
+    'menus': ('#cardapios', '#cardapio'),
 }
 BRAZIL_TIMEZONE = timezone(-timedelta(hours=3), 'Brazil')
 
@@ -45,6 +46,7 @@ def handle(event):
         (_commit, message in KEYWORDS['commit']),
         (_hola, message in KEYWORDS['hola']),
         (_lunch, message in KEYWORDS['lunch']),
+        (_menus, message in KEYWORDS['menus']),
     )
 
     for function, match in keywords_mapping:
@@ -145,3 +147,14 @@ def _allegro(event):
         'allegro.jpg',
         image=True,
     )
+
+
+def _menus(event):
+    menus = (
+        '#allegro',
+        '#cardapioAltis',
+        '#cardapioCantina',
+        '#cardapioDelicia',
+    )
+    for menu in menus:
+        event.msg.chat.sendMsg(menu)
