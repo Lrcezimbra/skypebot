@@ -20,6 +20,7 @@ KEYWORDS = {
     'lunch': ('#almoco', '#almoço', '#lunch'),
     'allegro': ('#allegro', '#cardapio_allegro', '#cardapioAllegro', '#cardapioallegro'),
     'menus': ('#cardapios', '#cardapio'),
+    'bom_dia_silvinho': ('bom dia silvinhobot',),
 }
 BRAZIL_TIMEZONE = timezone(-timedelta(hours=3), 'Brazil')
 
@@ -39,6 +40,7 @@ def handle(event):
         (_piorou, 'tava ruim' in message),
         (_piorou, 'tava meio ruim' in message),
         (_dict, '#dict' in message),
+        (_bom_dia_silvinho, message in KEYWORDS['bom_dia_silvinho']),
         (_allegro, message in KEYWORDS['allegro']),
         (_coin, message in KEYWORDS['coin']),
         (_help, message in KEYWORDS['help']),
@@ -160,3 +162,7 @@ def _menus(event):
     )
     for menu in menus:
         event.msg.chat.sendMsg(menu)
+
+
+def _bom_dia_silvinho(event):
+    event.msg.chat.sendMsg('devido a realização de atividade durante a madrugada, o Silvinho ira chegar um pouco mais tarde.')
