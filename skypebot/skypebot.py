@@ -1,6 +1,9 @@
 import re
 from datetime import datetime, timedelta, timezone
 
+import wikipedia
+from wikipedia import DisambiguationError
+
 from actions import allegro
 from actions import cama
 from actions import coin
@@ -23,6 +26,7 @@ KEYWORDS = {
     'bom_dia_silvinho': ('bom dia silvinhobot',),
 }
 BRAZIL_TIMEZONE = timezone(-timedelta(hours=3), 'Brazil')
+wikipedia.set_lang("pt")
 
 
 def handle(event):
@@ -40,6 +44,7 @@ def handle(event):
         (_piorou, 'tava ruim' in message),
         (_piorou, 'tava meio ruim' in message),
         (_dict, '#dict' in message),
+        (_wiki, '#wiki' in message),
         (_bom_dia_silvinho, message in KEYWORDS['bom_dia_silvinho']),
         (_allegro, message in KEYWORDS['allegro']),
         (_coin, message in KEYWORDS['coin']),
@@ -166,3 +171,20 @@ def _menus(event):
 
 def _bom_dia_silvinho(event):
     event.msg.chat.sendMsg('devido a realização de atividade durante a madrugada, o Silvinho ira chegar um pouco mais tarde.')
+
+
+def _wiki(event):
+    regex_pattern = '</legacyquote>([a-záàâãéèêíïóôõöúç -]*)<legacyquote>'
+    msg = event.msg.content.lower()
+
+    word = re.findall(regex_pattern, msg)[0]
+    try:
+        page = wikipedia.page(word)
+        content_lines = page.content.split('\n')
+        event.msg.chat.sendMsg('{}\n{}'.format(content_lines[0], page.url))
+    except DisambiguationError as error:
+        msg_format = 'Desambiguação de {}: {}'
+        options = ', '.join(error.options)
+        event.msg.chat.sendMsg(msg_format.format(error.title, options))
+    except IndexError:
+        event.msg.chat.sendMsg('Não achei no Wikipedia: {}'.format(word))
