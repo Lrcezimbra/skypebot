@@ -1,5 +1,6 @@
 import re
 from datetime import datetime, timedelta, timezone
+from time import sleep
 
 import wikipedia
 from wikipedia import DisambiguationError
@@ -170,7 +171,12 @@ def _menus(event):
 
 
 def _bom_dia_silvinho(event):
-    event.msg.chat.sendMsg('devido a realização de atividade durante a madrugada, o Silvinho ira chegar um pouco mais tarde.')
+    sleep(1)
+    if event.msg.chat.getMsgs()[0].userId == 'live:silvinho485_1':
+        event.msg.chat.setTyping(active=False)
+        return
+    msg = 'devido a realização de atividade durante a madrugada, o Silvinho ira chegar um pouco mais tarde.' # noqa
+    event.msg.chat.sendMsg(msg)
 
 
 def _wiki(event):
