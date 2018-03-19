@@ -56,5 +56,5 @@ def main(name):
 
     weekd = weekday(calendar.weekday(now.year, now.month, now.day))
     msg = "{}. {}. {}".format(greetings(name), before_day(weekd), joke(weekd))
-    msg = random.choice([msg, 'Oi internautas!', msg])
+    msg = random.choice([msg, 'Oi internautas!', msg, 'Bem-vindos! Bem-vindos ao restaurante do seu Shitaki. Ok?'])
     return msg
