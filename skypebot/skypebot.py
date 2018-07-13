@@ -55,6 +55,12 @@ def handle(event):
         (_hola, message in KEYWORDS['hola']),
         (_lunch, message in KEYWORDS['lunch']),
         (_menus, message in KEYWORDS['menus']),
+        (_chapeu, 'tirei o chapéu' in message),
+        (_chapeu, 'ter um chapéu, só para tira-lo' in message),
+        (_chapeu, 'ter um chapéu só para tira-lo' in message),
+        (_chapeu, 'tirou o chapéu' in message),
+        (_chapeu, 'tirei o chapeu' in message),
+        (_chapeu, 'tirou o chapeu' in message),
     )
 
     for function, match in keywords_mapping:
@@ -62,6 +68,13 @@ def handle(event):
             event.msg.chat.setTyping()
             function(event)
             break
+
+
+def _chapeu(event):
+    with open('tirei-o-chapeu1.jpg', 'rb') as image1:
+        with open('tirei-o-chapeu2.jpg', 'rb') as image2:
+            event.msg.chat.sendFile(image1, 'chapeu1.jpg', image=True)
+            event.msg.chat.sendFile(image2, 'chapeu2.jpg', image=True)
 
 
 def _radical(event):
