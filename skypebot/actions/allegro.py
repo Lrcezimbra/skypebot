@@ -11,7 +11,7 @@ FACEBOOK_APP_SECRET = config('FACEBOOK_APP_SECRET')
 FACEBOOK_TOKEN = '{}|{}'.format(FACEBOOK_APP_ID, FACEBOOK_APP_SECRET)
 FACEBOOK_URL = 'https://graph.facebook.com/v2.12/'
 PARAMS = {'access_token': FACEBOOK_TOKEN}
-ALLEGRO_PHOTOS_URL = FACEBOOK_URL + '1555033107877321/photos/'
+ALLEGRO_PHOTOS_URL = FACEBOOK_URL + '1723142844399679/photos/'
 IMAGES_URL_FORMAT = FACEBOOK_URL + '{id}?fields=images'
 
 
@@ -21,7 +21,7 @@ def get_menu_image_url():
     last_photo_date, _ = last_photo['created_time'].split('T')
     last_photo_date = datetime.strptime(last_photo_date, '%Y-%m-%d')
 
-    if last_photo_date < datetime.today():
+    if last_photo_date.date() < datetime.today().date():
         return last_photo_date, ''
 
     last_photo_informations = IMAGES_URL_FORMAT.format(id=last_photo['id'])
